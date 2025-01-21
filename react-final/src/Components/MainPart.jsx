@@ -1,65 +1,65 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Modal } from "react-bootstrap";
-import "../css/MainPart.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Pagination from "./Pagination";
-import CoinDetails from "./CoinDetails";
+import { useEffect, useState } from "react"
+import axios from "axios"
+import { Modal } from "react-bootstrap"
+import "../css/MainPart.css"
+import "bootstrap/dist/css/bootstrap.min.css"
+import Pagination from "./Pagination"
+import CoinDetails from "./CoinDetails"
 
 function MainPart() {
-  const [coins, setCoins] = useState([]);
-  const [searchCoins, setSearchCoins] = useState("");
-  const [filteredCoins, setFilteredCoins] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCoin, setSelectedCoin] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const coinsPerPage = 10;
+  const [coins, setCoins] = useState([])
+  const [searchCoins, setSearchCoins] = useState("")
+  const [filteredCoins, setFilteredCoins] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedCoin, setSelectedCoin] = useState(null)
+  const [showModal, setShowModal] = useState(false)
+  const coinsPerPage = 10
 
   const handleSearch = (e) => {
-    const searchValue = e.target.value;
-    setSearchCoins(searchValue);
+    const searchValue = e.target.value
+    setSearchCoins(searchValue)
     const filterCoin = coins.filter((coin) =>
       coin.name.toLowerCase().includes(searchValue.toLowerCase())
-    );
-    setFilteredCoins(filterCoin);
-    setCurrentPage(1);
-  };
+    )
+    setFilteredCoins(filterCoin)
+    setCurrentPage(1)
+  }
 
   const getAllCoins = async () => {
     try {
-      const response = await axios.get("https://api.coinlore.net/api/tickers/");
-      setCoins(response.data.data);
+      const response = await axios.get("https://api.coinlore.net/api/tickers/")
+      setCoins(response.data.data)
     } catch (error) {
-      console.error("Error", error);
+      console.error("Error", error)
     }
-  };
+  }
 
   useEffect(() => {
-    getAllCoins();
-  }, []);
+    getAllCoins()
+  }, [])
 
   useEffect(() => {
-    setFilteredCoins(coins);
-  }, [coins]);
+    setFilteredCoins(coins)
+  }, [coins])
 
-  const lastCoin = currentPage * coinsPerPage;
-  const firstCoin = lastCoin - coinsPerPage;
-  const currentCoins = filteredCoins.slice(firstCoin, lastCoin);
-  const totalPages = Math.ceil(filteredCoins.length / coinsPerPage);
+  const lastCoin = currentPage * coinsPerPage
+  const firstCoin = lastCoin - coinsPerPage
+  const currentCoins = filteredCoins.slice(firstCoin, lastCoin)
+  const totalPages = Math.ceil(filteredCoins.length / coinsPerPage)
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+    setCurrentPage(pageNumber)
+  }
 
   const handleMoreInfo = (coin) => {
-    setSelectedCoin(coin);
-    setShowModal(true);
-  };
+    setSelectedCoin(coin)
+    setShowModal(true)
+  }
 
   const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedCoin(null);
-  };
+    setShowModal(false)
+    setSelectedCoin(null)
+  }
 
   return (
     <div className="mainPart">
@@ -126,7 +126,7 @@ function MainPart() {
         </Modal>
       )}
     </div>
-  );
+  )
 }
 
-export default MainPart;
+export default MainPart
